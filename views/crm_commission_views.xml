@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="crm_commission_table_tree" model="ir.ui.view">
+            <field name="name">crm.commission.plan.table.tree</field>
+            <field name="model">crm.commission.plan</field>
+            <field name="arch" type="xml">
+                <tree string="Channel">
+                    <field name="name"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="plan"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="crm_commission_table_form" model="ir.ui.view">
+            <field name="name">crm.commission.plan.table.form</field>
+            <field name="model">crm.commission.plan</field>
+            <field name="arch" type="xml">
+                <form string="Test">
+                    <sheet>
+                        <group>
+                            <gorup>
+                                <group>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="active"/>
+                                    </group>
+                                </group>
+                            </gorup>
+                            <group>
+                                <group>
+                                    <field name="from_date"/>
+                                    <field name="to_date"/>
+                                    <field name="plan"/>
+                                    <field name="commission_type" attrs="{'invisible':[('plan','=','pro_wise')]}"/>
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="Commission Line" attrs="{'invisible':[('plan','=','rev_wise')]}">
+                                    <field name="commission_ids">
+                                        <tree editable="bottom">
+                                            <field name='product_id'/>
+                                            <field name='product_category_id'/>
+                                            <field name='rate_in_per'/>
+                                            <field name='max_price'/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Commission Line" attrs="{'invisible':[('plan','=','pro_wise')]}">
+                                    <field name="revenue_wise_ids">
+                                        <tree editable="bottom">
+                                            <field name="sequence" widget="handle"/>
+                                            <field name="from_amount"/>
+                                            <field name="to_amount"/>
+                                            <field name="rev_wise_percentage"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="crm_commission_model_action" model="ir.actions.act_window">
+            <field name="name">CRM Commission Plan</field>
+            <field name="res_model">crm.commission.plan</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+    <menuitem id="crm_commission_plan_menu_root" name="CRM Commission"/>
+    <menuitem id="crm_commission_plan_first_level_menu" name="Commission" parent="crm_commission_plan_menu_root"
+              action="crm_commission_model_action"/>
+</odoo>
